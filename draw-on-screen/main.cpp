@@ -1,11 +1,9 @@
-// Draw on Screen like paint.
+//	Draw on Screen
 #include <bits/stdc++.h>
 #include <graphics.h>
 
 using namespace std;
 
-// Press Left shift and move cursor to draw on the screen.
-// release shift key to stop drawing.
 
 int main()
 {
