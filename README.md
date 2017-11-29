@@ -1,5 +1,5 @@
-# see-saw-and-moving-wheel
-A moving see-saw with rolling wheel on it (c++ graphics.h)
+# ComputerGraphics_Programs
+It contains interesting graphics programs, implemented using graphics.h in C++
 
 #### First graphics.h must be set up in your system (code::blocks recommended)!
 
