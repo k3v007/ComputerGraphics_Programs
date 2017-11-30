@@ -81,7 +81,7 @@ int main()
     initwindow(1400, 900);
     int xc = getmaxx() / 2, yc = getmaxy() / 2;
     POINT cursorPos;
-    GetCursorPos(&cursorPos);
+    cursorPos = {xc - 200, yc + 300};
     //polygon vertices
     coord vertex[MAX] = {{xc - 200, yc - 100}, {xc + 300, yc - 30}, {xc + 50, yc}, {xc + 200, yc + 150}, {xc, yc + 20}, {xc + 10, yc + 200}};
     //1st point of line
@@ -89,9 +89,12 @@ int main()
     int page = 0;
 
     while(!kbhit()){
-        settextstyle(6, HORIZ_DIR, 1);
-        outtextxy(xc - 10, yc + 300, "Hover the Cursor!!");
-        GetCursorPos(&cursorPos);
+        settextstyle(10, HORIZ_DIR, 1);     setcolor(YELLOW);
+        outtextxy(xc - 200, yc - 350, "Hold the Left-Shift key and Hover the Cursor!!");
+
+        //update the P2 coordinate only if Shift key is pressed
+        if(GetKeyState(VK_SHIFT) & 0x800)
+            GetCursorPos(&cursorPos);
         coord p2 = {cursorPos.x, cursorPos.y};
 
         //for storing the t parameters
@@ -112,7 +115,7 @@ int main()
         setcolor(BLUE);
         line(p1.x, p1.y, p2.x, p2.y);
 
-        setcolor(YELLOW);
+        setcolor(LIGHTGREEN);
         //drawing the clipped line (i.e over-drawing)
         for (auto i = t.begin(); i != t.end(); ++i){
             coord pt1, pt2;

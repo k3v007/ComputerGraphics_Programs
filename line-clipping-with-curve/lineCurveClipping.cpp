@@ -140,7 +140,7 @@ int main()
 
     while(!kbhit()){
         settextstyle(10, HORIZ_DIR, 1);     setcolor(LIGHTRED);
-        outtextxy(xc - 50, yc - 400, "Hold Shift-key and Hover the CURSOR!!");
+        outtextxy(xc - 100, yc - 400, "Hold the Left-Shift key and Hover the CURSOR!!");
         //update the cursor position only if Left Shift is hold
         if(GetKeyState(VK_SHIFT) & 0x800)
             GetCursorPos(&cursorPos);
