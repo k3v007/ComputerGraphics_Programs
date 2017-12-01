@@ -18,7 +18,7 @@ int main()
                         {1,    1,   1,    1,    1,    1,   1,    1}   };
 
     int i, j, k, page = 0;
-    float q = 0.0, sum = 0, ang = 0;
+    int ang = 0;
 
     while(1)
     {
@@ -26,7 +26,7 @@ int main()
         outtextxy(200, 50, "Press 'a' for \"CW Rotation\" and 'd' for \"CCW Rotation\"");
 
         //z rotation matrix
-        float rotz[4][4] = { COS(ang), -SIN(ang), 0, 0,
+        float rotz[4][4] = {    COS(ang), -SIN(ang), 0, 0,
                                 SIN(ang), COS(ang),  0, 0,
                                 0,        0,         1, 0,
                                 0,        0,         0, 1   };
@@ -34,7 +34,7 @@ int main()
         float pts[4][8];
         for (i = 0; i <= 3; i++) {
             for (j = 0; j <= 8; j++) {
-                sum = 0;
+                int sum = 0;
                 for (k = 0; k <= 3; k++) {
                     sum += rotz[i][k] * p[k][j];
                 }
@@ -57,9 +57,9 @@ int main()
         //front view - we are drawing in xz plane
         //y coordinate is set to 0 or not taken
         for(i = 0; i < 4; i++) {
-            line(350 + pts[0][i],   240 - pts[2][i],   350 + pts[0][(i+1)%4],   240 - pts[2][(i+1)%4]);
-            line(350 + pts[0][i+4], 240 - pts[2][i+4], 350 + pts[0][(i+1)%4+4], 240 - pts[2][(i+1)%4+4]);
-            line(350 + pts[0][i],   240 - pts[2][i],   350 + pts[0][i+4],       240 - pts[2][i+4]);
+            line(350 + pts[0][i],   260 - pts[2][i],   350 + pts[0][(i+1)%4],   260 - pts[2][(i+1)%4]);
+            line(350 + pts[0][i+4], 260 - pts[2][i+4], 350 + pts[0][(i+1)%4+4], 260 - pts[2][(i+1)%4+4]);
+            line(350 + pts[0][i],   260 - pts[2][i],   350 + pts[0][i+4],       260 - pts[2][i+4]);
         }
 
         //side view - we are drawing in yz plane
@@ -70,16 +70,15 @@ int main()
             line(530 + pts[2][i],   240 - pts[1][i],   530 + pts[2][i+4],       240 - pts[1][i+4]);
         }
 
-        char ch = getch();
+        char ch = getch();  ch = tolower(ch);
         if (ch == 'd') {
-            ang++;
+            ang += 2;
         }
         else if (ch == 'a') {
-            ang--;
+            ang -= 2;
         }
 
-        //ang += sign;
-        delay(5);                   setactivepage(page);        setvisualpage(1 - page);
+        setactivepage(page);        setvisualpage(1 - page);
         page = 1 - page;            cleardevice();
     }
 
