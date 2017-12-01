@@ -119,32 +119,30 @@ int main()
     int xc = getmaxx() / 2, yc = getmaxy() / 2, r = 300, degcnt = 50, a = 25, sec = 65, disp = 50, page = 0, sa = 0, sign = 1, k = 0;
     //disp is used for the displacement of the circle from the extreme point of the plank as it can't go  till the end
 
-    while (!kbhit()) {
-        for (int rot = 0; ; a -= sign, k += sign * 10, rot -= sign * 20, degcnt--) {
-            //drawing the triangle
-            line_mpt(xc, yc, xc + 50, yc + 80, LIGHTRED), line_mpt(xc, yc, xc - 50, yc + 80, LIGHTRED), line_mpt(xc - 50, yc + 80, xc + 50, yc + 80, LIGHTRED);
+    for (int rot = 0; !kbhit(); a -= sign, k += sign * 10, rot -= sign * 20, degcnt--) {
+        //drawing the triangle
+        line_mpt(xc, yc, xc + 50, yc + 80, LIGHTRED), line_mpt(xc, yc, xc - 50, yc + 80, LIGHTRED), line_mpt(xc - 50, yc + 80, xc + 50, yc + 80, LIGHTRED);
 
-            //the sea-saw plank
-            for (int j = 0; j < 5; ++j)
-                line_mpt(xc + r * COS(a), yc - r * SIN(a) - j, xc - r * COS(a), yc + r * SIN(a) - j, BROWN);
+        //the sea-saw plank
+        for (int j = 0; j < 5; ++j)
+            line_mpt(xc + r * COS(a), yc - r * SIN(a) - j, xc - r * COS(a), yc + r * SIN(a) - j, BROWN);
 
-            //centre of the moving circle
-            int cirx = xc - (r - disp - k) * COS(a), ciry = yc - 40 + (r - disp - k) * SIN(a), cirR = 36;
-            circle_mpt(cirx, ciry, cirR, GREEN), circle_mpt(cirx, ciry, cirR - 1, GREEN), circle_mpt(cirx, ciry, cirR - 2, GREEN);
-            circle_mpt(cirx, ciry, 4, YELLOW), circle_mpt(cirx, ciry, 5, YELLOW), circle_mpt(cirx, ciry, 30, YELLOW);
+        //centre of the moving circle
+        int cirx = xc - (r - disp - k) * COS(a), ciry = yc - 40 + (r - disp - k) * SIN(a), cirR = 36;
+        circle_mpt(cirx, ciry, cirR, GREEN), circle_mpt(cirx, ciry, cirR - 1, GREEN), circle_mpt(cirx, ciry, cirR - 2, GREEN);
+        circle_mpt(cirx, ciry, 4, YELLOW), circle_mpt(cirx, ciry, 5, YELLOW), circle_mpt(cirx, ciry, 30, YELLOW);
 
-            //drawing the spokes
-            for (int cnt = 0; cnt < 4; sa += sign * 45, cnt++)
-                line_mpt(cirx + cirR * COS(sa + rot), ciry - cirR * SIN(sa + rot), cirx - cirR * COS(sa + rot), ciry + cirR * SIN(sa + rot), YELLOW);
+        //drawing the spokes
+        for (int cnt = 0; cnt < 4; sa += sign * 45, cnt++)
+            line_mpt(cirx + cirR * COS(sa + rot), ciry - cirR * SIN(sa + rot), cirx - cirR * COS(sa + rot), ciry + cirR * SIN(sa + rot), YELLOW);
 
-            //reseting the degree count and changing the nature of rotation
-            if (degcnt == 0)
-                degcnt = 50,  sign *= -1;
+        //reseting the degree count and changing the nature of rotation
+        if (degcnt == 0)
+            degcnt = 50,  sign *= -1;
 
-            //using setactivepage() and setvisualpage() to avoid flickering
-            delay(sec);         setactivepage(page);        setvisualpage(1-page);
-            page = 1 - page;    cleardevice();
-        }
+        //using setactivepage() and setvisualpage() to avoid flickering
+        delay(sec);         setactivepage(page);        setvisualpage(1-page);
+        page = 1 - page;    cleardevice();
     }
 
     getch();
