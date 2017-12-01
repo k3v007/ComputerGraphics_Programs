@@ -22,7 +22,7 @@ typedef struct{
 void calcSign(int &x, int &y)
 {
     //using CW wise rotation
-    if ((x >= 0 and y >= 0) and (x < 0 and y < 0))
+    if ((x >= 0 and y >= 0) or (x < 0 and y < 0))
         x *= -1;
     else
         y *= -1;
