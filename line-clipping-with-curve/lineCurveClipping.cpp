@@ -34,9 +34,9 @@ void line_mpt (int x1, int y1, int x2, int y2, int color1 = WHITE, int color2 = 
     bool compare;
 
     if (abs (x2 - x1) > abs (y2 - y1)) {            //major moment in x
-        if ((x2 - x1) * (y2 - y1) > 0) {            //slope is +ve: mx - y + c = 0
+        if ((x2 - x1) * (y2 - y1) >= 0) {            //slope is +ve: mx - y + c = 0
             xsign = -1, ysign = 1, compare = 1;
-            if (x1 > x2) {
+            if ((x1 > x2) or ((x2 - x1) == 0 and (y1 > y2))) {
                 swap(x1, x2);   swap(y1, y2);
             }
         }
@@ -67,9 +67,9 @@ void line_mpt (int x1, int y1, int x2, int y2, int color1 = WHITE, int color2 = 
         }
     }
     else {      //major moment in y
-        if ((x2 - x1) * (y2 - y1) > 0) {          //slope is +ve: mx - y + c = 0
+        if ((x2 - x1) * (y2 - y1) >= 0) {          //slope is +ve: mx - y + c = 0
             xsign = -1, ysign = 1, compare = 1;
-            if (x1 > x2) {
+            if ((x1 > x2) or ((x2 - x1) == 0 and (y1 > y2))) {
                 swap(x1, x2);   swap(y1, y2);
             }
         }
