@@ -33,7 +33,7 @@ long long int dotProduct(coord a, coord b)
 }
 
 //setting the vision co-ordinate
-coord V = {700,400,1000};
+coord V = {700,300,1000};
 
 //calculating whether the given surface is hidden or not using the Back-face detection technique
 bool hidden(coord sfc[MAX], int n)
@@ -82,10 +82,26 @@ int main()
                             {1,1,1,     1,1,1,      1,1,1,      1,1,1}  };
 
     //coordinates of roll no. are set according to the surfaces of tetrahedron
-    int rollNo[4][4*crv] = {    {0,0,0,0,           0,0,0,0,            0,0,0,0,      0,0,0,0,         60,130,130,30,   50,10,10,100,   50,80,150,100},
-                                {65,105,115,140,    65,105,115,140,     65,35,5,0,    65,35,5,0,       130,20,-20,40,   140,150,50,50,  140,150,50,50},
-                                {70,110,110,110,    70,30,30,30,        70,40,40,70,  70,110,110,70,   0,0,0,0,         50,80,150,100,  50,10,10,100},
-                                {1,1,1,1,           1,1,1,1,            1,1,1,1,      1,1,1,1,         1,1,1,1,         1,1,1,1,        1,1,1,1}           };
+    ///reference figure is provided in the folder
+
+    int crv4 = 4;
+    int hindi4[4][4*crv4] = {   {0,0,0,0,           0,0,0,0,            0,0,0,0,      0,0,0,0},
+                                {65,105,115,140,    65,105,115,140,     65,35,5,0,    65,35,5,0},
+                                {70,110,110,110,    70,30,30,30,        70,40,40,70,  70,110,110,70},
+                                {1,1,1,1,           1,1,1,1,            1,1,1,1,      1,1,1,1}      };
+
+    int crv0 = 2;
+    int hindi0[4][4*crv0] = {   {50,10,10,100,   50,80,150,100},
+                                {140,150,50,50,  140,150,50,50},
+                                {50,80,150,100,  50,10,10,100},
+                                {1,1,1,1,        1,1,1,1}    };
+
+    int crv8 = 1;
+    int hindi8[4][4*crv8] = {   {60,130,130,30},
+                                {130,20,-20,40},
+                                {0,0,0,0},
+                                {1,1,1,1}    };
+
 
     int ang = 0;
 
@@ -131,14 +147,38 @@ int main()
         }
 
         //multiplying the roll no. with the y-rotation matrix
-        float rollpts[4][4*crv];
+        float pts4[4][4*crv4];
         for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4 * crv; j++) {
+            for (int j = 0; j < 4 * crv4; j++) {
                 int sum = 0;
                 for (int k = 0; k < 4; k++) {
-                    sum += 0.8 * roty[i][k] * rollNo[k][j];
+                    sum += 0.8 * roty[i][k] * hindi4[k][j];
                 }
-                rollpts[i][j] = sum;
+                pts4[i][j] = sum;
+            }
+        }
+
+        //multiplying the roll no. with the y-rotation matrix
+        float pts0[4][4*crv0];
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4 * crv0; j++) {
+                int sum = 0;
+                for (int k = 0; k < 4; k++) {
+                    sum += 0.8 * roty[i][k] * hindi0[k][j];
+                }
+                pts0[i][j] = sum;
+            }
+        }
+
+        //multiplying the roll no. with the y-rotation matrix
+        float pts8[4][4*crv8];
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4 * crv8; j++) {
+                int sum = 0;
+                for (int k = 0; k < 4; k++) {
+                    sum += 0.8 * roty[i][k] * hindi8[k][j];
+                }
+                pts8[i][j] = sum;
             }
         }
 
@@ -161,30 +201,31 @@ int main()
                     line(sfc[j].x, sfc[j].y, sfc[(j+1)%v].x, sfc[(j+1)%v].y);
 
                 if (i == 6) {       //4 is present on S3
-                    for (int col = 0; col < 4 * 4; col +=4) {   //for hindi 4
+                    for (int col = 0; col < 4 * crv4; col +=4) {            //for hindi 4
                         for (float t = 0; t <= 1; t += 0.001) {
                             float x, y;
-                            x = pow(1-t, 3) * rollpts[0][col] + 3 * pow(1-t, 2) * t * rollpts[0][col+1] + 3 * (1-t) * t * t * rollpts[0][col+2] + pow(t, 3) * rollpts[0][col+3];
-                            y = pow(1-t, 3) * rollpts[1][col] + 3 * pow(1-t, 2) * t * rollpts[1][col+1] + 3 * (1-t) * t * t * rollpts[1][col+2] + pow(t, 3) * rollpts[1][col+3];
+                            x = pow(1-t, 3) * pts4[0][col] + 3 * pow(1-t, 2) * t * pts4[0][col+1] + 3 * (1-t) * t * t * pts4[0][col+2] + pow(t, 3) * pts4[0][col+3];
+                            y = pow(1-t, 3) * pts4[1][col] + 3 * pow(1-t, 2) * t * pts4[1][col+1] + 3 * (1-t) * t * t * pts4[1][col+2] + pow(t, 3) * pts4[1][col+3];
                             putpixel(xc + x, yc - y, RED);
                         }
                     }
                 }
                 else if (i == 0) {          //8 is present on S1
-                    int col = 4*4;          //for hindi 8
-                    for (float t = 0; t <= 1; t += 0.001) {
-                        float x, y;
-                        x = pow(1-t, 3) * rollpts[0][col] + 3 * pow(1-t, 2) * t * rollpts[0][col+1] + 3 * (1-t) * t * t * rollpts[0][col+2] + pow(t, 3) * rollpts[0][col+3];
-                        y = pow(1-t, 3) * rollpts[1][col] + 3 * pow(1-t, 2) * t * rollpts[1][col+1] + 3 * (1-t) * t * t * rollpts[1][col+2] + pow(t, 3) * rollpts[1][col+3];
-                        putpixel(xc + x, yc - y, RED);
+                    for (int col = 0; col < 4 * crv8; col +=4) {            //for hindi 8
+                        for (float t = 0; t <= 1; t += 0.001) {
+                            float x, y;
+                            x = pow(1-t, 3) * pts8[0][col] + 3 * pow(1-t, 2) * t * pts8[0][col+1] + 3 * (1-t) * t * t * pts8[0][col+2] + pow(t, 3) * pts8[0][col+3];
+                            y = pow(1-t, 3) * pts8[1][col] + 3 * pow(1-t, 2) * t * pts8[1][col+1] + 3 * (1-t) * t * t * pts8[1][col+2] + pow(t, 3) * pts8[1][col+3];
+                            putpixel(xc + x, yc - y, RED);
+                        }
                     }
                 }
                 else if (i == 9) {      //0 is present on S4
-                    for (int col = 4*5; col < 4 * crv; col +=4) {       //for hindi 0
+                    for (int col = 0; col < 4 * crv0; col +=4) {            //for hindi 0
                         for (float t = 0; t <= 1; t += 0.001) {
                             float x, y;
-                            x = pow(1-t, 3) * rollpts[0][col] + 3 * pow(1-t, 2) * t * rollpts[0][col+1] + 3 * (1-t) * t * t * rollpts[0][col+2] + pow(t, 3) * rollpts[0][col+3];
-                            y = pow(1-t, 3) * rollpts[1][col] + 3 * pow(1-t, 2) * t * rollpts[1][col+1] + 3 * (1-t) * t * t * rollpts[1][col+2] + pow(t, 3) * rollpts[1][col+3];
+                            x = pow(1-t, 3) * pts0[0][col] + 3 * pow(1-t, 2) * t * pts0[0][col+1] + 3 * (1-t) * t * t * pts0[0][col+2] + pow(t, 3) * pts0[0][col+3];
+                            y = pow(1-t, 3) * pts0[1][col] + 3 * pow(1-t, 2) * t * pts0[1][col+1] + 3 * (1-t) * t * t * pts0[1][col+2] + pow(t, 3) * pts0[1][col+3];
                             putpixel(xc + x, yc - y, RED);
                         }
                     }
