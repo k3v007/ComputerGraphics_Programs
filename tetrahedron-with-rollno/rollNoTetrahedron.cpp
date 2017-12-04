@@ -191,14 +191,24 @@ int main()
 
                 switch(i){
                     case 0 :  lcolor = LIGHTMAGENTA;    break;
-                    case 3 :  lcolor = LIGHTGREEN;      break;
-                    case 6 :  lcolor = LIGHTCYAN;       break;
+                    case 3 :  lcolor = LIGHTCYAN;       break;
+                    case 6 :  lcolor = LIGHTGREEN;      break;
                     case 9 :  lcolor = YELLOW;          break;
                 }
+
+                //Calculating the mid-point
+                coord M;
+                M.x = (sfc[0].x + sfc[1].x + sfc[2].x) / 3;
+                M.y = (sfc[0].y + sfc[1].y + sfc[2].y) / 3;
 
                 setcolor(lcolor);
                 for(int j = 0; j < v; ++j)
                     line(sfc[j].x, sfc[j].y, sfc[(j+1)%v].x, sfc[(j+1)%v].y);
+
+                //filling color in the corresponding surfaces
+                setfillstyle(SOLID_FILL, lcolor);
+                floodfill(M.x, M.y, lcolor);
+
 
                 if (i == 6) {       //4 is present on S3
                     for (int col = 0; col < 4 * crv4; col +=4) {            //for hindi 4
